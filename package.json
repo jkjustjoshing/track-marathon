@@ -1,0 +1,17 @@
+{
+  "name": "track-marathon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "login": "firebase login",
+    "init": "firebase init",
+    "deploy": "firebase deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-tools": "^7.15.1"
+  }
+}
