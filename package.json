@@ -6,7 +6,8 @@
   "scripts": {
     "login": "firebase login",
     "init": "firebase init",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "serve": "firebase serve"
   },
   "keywords": [],
   "author": "",
