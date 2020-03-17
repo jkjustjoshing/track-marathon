@@ -12,6 +12,7 @@
     <script defer src="/__/firebase/7.11.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/7.11.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/7.11.0/firebase-firestore.js"></script>
     <script defer src="/__/firebase/7.11.0/firebase-database.js"></script>
     <script defer src="/__/firebase/7.11.0/firebase-messaging.js"></script>
     <script defer src="/__/firebase/7.11.0/firebase-storage.js"></script>
@@ -23,7 +24,8 @@
     <p>One man. One quarantine. One track. One marathon.</p>
     <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
+    <script type="module">
+      import { start } from './src/app.js'
       document.addEventListener('DOMContentLoaded', function() {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
         // // The Firebase SDK is initialized and available here!
@@ -37,8 +39,10 @@
 
         try {
           let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+          let features = ['auth', 'database', 'messaging', 'storage', 'firestore'].filter(feature => typeof app[feature] === 'function');
           document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+
+          start()
         } catch (e) {
           console.error(e);
           document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
