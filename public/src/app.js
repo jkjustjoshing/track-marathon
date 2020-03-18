@@ -1,10 +1,18 @@
-console.log('foo')
+export const start = async (container) => {
 
-export const start = () => {
+  const unsubscribe = listenForData(data => {
+    console.log(data)
+  })
+}
+
+
+const listenForData = (cb) => {
   const db = firebase.firestore()
-  db.collection('races').get().then(querySnapshot => {
-    querySnapshot.forEach((doc) => {
-      console.log(doc.id, doc.data())
-    })
+  const race = await db.collection('races').doc('VegflgL0UgoDqBOOckN7')
+
+  return race.onSnapshot((doc) => {
+    if (doc.exists) {
+      cb(doc.data())
+    }
   })
 }
