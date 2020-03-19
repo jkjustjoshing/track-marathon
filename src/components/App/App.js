@@ -1,21 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
+import Admin from '../Admin/Admin'
+import useRaceData from '../../useRaceData'
 import './App.css';
-
-const useRaceData = () => {
-  const race = useMemo(() => {
-    const db = window.firebase.firestore()
-    return db.collection('races').doc('VegflgL0UgoDqBOOckN7')
-  }, [])
-  const [data, setData] = useState(null)
-  useEffect(() => {
-    return race.onSnapshot(doc => {
-      if (doc.exists) {
-        setData(doc.data())
-      }
-    })
-  }, [race])
-  return data
-}
 
 const secondsToTime = (time) => {
   const minutes = Math.floor(time / 60)
@@ -32,7 +18,7 @@ const App = () => {
   console.log(data)
 
   return data && (
-    <table id='lap-table'>
+    <><table id='lap-table'>
       <thead>
         <tr>
           <th>Lap</th>
@@ -57,6 +43,8 @@ const App = () => {
         }
       </tbody>
     </table>
+    <Admin />
+    </>
   );
 }
 
