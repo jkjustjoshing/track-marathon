@@ -43,14 +43,17 @@ const App = () => {
       </thead>
       <tbody>
         {
-          data.laps.map((lap, id) => (
-            <tr key={id}>
-              <td>{id}</td>
-              <td>{secondsToTime(lap.duration)}</td>
-              <td>{secondsToTime((1600 / lap.distance) * lap.duration)} per mile</td>
-              <td>{JSON.stringify(lap)}</td>
-            </tr>
-          ))
+          data.laps.map((lap, id) => {
+            const duration = lap.end - lap.start
+            return (
+              <tr key={id}>
+                <td>{id}</td>
+                <td>{secondsToTime(duration)}</td>
+                <td>{secondsToTime((1600 / lap.distance) * duration)} per mile</td>
+                <td>{JSON.stringify(lap)}</td>
+              </tr>
+            )
+          })
         }
       </tbody>
     </table>
