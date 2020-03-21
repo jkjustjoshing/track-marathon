@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { usePushData } from '../../useRaceData'
 import useAuth from '../../useAuth'
 
 const Admin = () => {
-  const { addLap } = usePushData()
+  const { raceId } = useParams()
+  const { addLap } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
