@@ -20,7 +20,8 @@
     "eject": "react-scripts eject",
     "serve": "firebase serve",
     "login": "firebase login",
-    "deploy": "yarn build && firebase deploy"
+    "deploy": "yarn build && firebase deploy",
+    "deploy:rules": "firebase deploy --only firestore"
   },
   "eslintConfig": {
     "extends": "react-app"
