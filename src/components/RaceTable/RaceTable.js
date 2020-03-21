@@ -1,6 +1,6 @@
 import React from 'react';
 import Admin from '../Admin/Admin'
-import useRaceData from '../../useRaceData'
+import useRaceData, { useFirebaseData } from '../../useRaceData'
 import { useParams } from 'react-router-dom'
 import './RaceTable.css';
 
@@ -11,11 +11,10 @@ const secondsToTime = (time) => {
   return minutes + ':' + String(seconds).padStart(2, '0')
 }
 
-const RaceTable = () => {
-  const { raceId } = useParams()
-  const data = useRaceData(raceId)
-
-  console.log(data)
+const RaceTable = ({ raceId }) => {
+  const { raceId: paramRaceId } = useParams()
+  const thisRaceId = paramRaceId || raceId
+  const data = useRaceData(thisRaceId)
 
   return data && (
     <><table id='lap-table'>
@@ -43,9 +42,17 @@ const RaceTable = () => {
         }
       </tbody>
     </table>
-    <Admin />
+    <Admin raceId={thisRaceId} />
     </>
   );
 }
 
 export default RaceTable;
+
+export const DefaultRaceTable = () => {
+  const data = useFirebaseData('app', 'currentRace')
+  if (!data) {
+    return null
+  }
+  return data.id ? <RaceTable raceId={data.id} /> : null
+}

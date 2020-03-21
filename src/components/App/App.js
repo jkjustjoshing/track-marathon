@@ -1,5 +1,5 @@
 import React from 'react';
-import RaceTable from '../RaceTable/RaceTable'
+import RaceTable, { DefaultRaceTable } from '../RaceTable/RaceTable'
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,6 +14,9 @@ const App = () => {
       <Switch>
         <Route path='/:raceId'>
           <RaceTable />
+        </Route>
+        <Route path='/'>
+          <DefaultRaceTable />
         </Route>
       </Switch>
     </Router>

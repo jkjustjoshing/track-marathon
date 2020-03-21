@@ -1,20 +1,20 @@
 import { useEffect, useState, useCallback } from 'react'
 
-const getRace = (id) => {
-  const db = window.firebase.firestore()
-  return db.collection('races').doc(id)
-}
+const db = window.firebase.firestore()
 
-const useRaceData = (id) => {
+const useRaceData = (id) => useFirebaseData('races', id)
+
+export const useFirebaseData = (collection, id) => {
   const [data, setData] = useState(null)
   useEffect(() => {
-    const race = getRace(id)
-    return race.onSnapshot(doc => {
+    const item = db.collection(collection).doc(id)
+
+    return item.onSnapshot(doc => {
       if (doc.exists) {
         setData(doc.data())
       }
     })
-  }, [id])
+  }, [collection, id])
   return data
 }
 
@@ -24,7 +24,7 @@ export const usePushData = (id) => {
   const data = useRaceData(id)
 
   const addLap = useCallback(() => {
-    const race = getRace(id)
+    const race = db.collection('races').doc(id)
 
     race.set({
       ...data,

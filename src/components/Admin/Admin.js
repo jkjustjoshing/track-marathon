@@ -1,17 +1,15 @@
 import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { usePushData } from '../../useRaceData'
 import useAuth from '../../useAuth'
 
-const Admin = () => {
-  const { raceId } = useParams()
+const Admin = ({ raceId }) => {
   const { addLap } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
     return <Login />
   }
-  console.log(userId)
+
   return (
     <div>
       <button onClick={logout}>logout</button>
