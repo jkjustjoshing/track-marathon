@@ -13,13 +13,13 @@
   },
   "scripts": {
     "start": "HOST= BROWSER=none react-scripts start",
-    "develop": "concurrently --kill-others \"yarn start\" \"yarn serve\"",
+    "develop": "rm -rf build; concurrently --kill-others \"yarn start\" \"yarn serve\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "firebase serve",
     "login": "firebase login",
-    "deploy": "npm run build && firebase deploy"
+    "deploy": "yarn build && firebase deploy"
   },
   "eslintConfig": {
     "extends": "react-app"
