@@ -26,6 +26,8 @@ export const usePushData = (id) => {
   const addLap = useCallback(() => {
     const race = db.collection('races').doc(id)
 
+    console.log(id, race)
+
     race.set({
       ...data,
       laps: [

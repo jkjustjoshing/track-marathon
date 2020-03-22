@@ -1,5 +1,5 @@
 import React from 'react';
-import RaceTable, { DefaultRaceTable } from '../RaceTable/RaceTable'
+import Race, { RedirectToDefaultRace } from '../Race/Race'
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,11 +12,11 @@ const App = () => {
   return (
     <Router>
       <Switch>
-        <Route path='/:raceId'>
-          <RaceTable />
-        </Route>
+        <Route path='/:raceId' render={({ raceId }) => (
+          <Race raceId={raceId} />
+        )} />
         <Route path='/'>
-          <DefaultRaceTable />
+          <RedirectToDefaultRace />
         </Route>
       </Switch>
     </Router>
