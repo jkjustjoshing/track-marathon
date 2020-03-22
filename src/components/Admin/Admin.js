@@ -3,7 +3,7 @@ import { usePushData } from '../../useRaceData'
 import useAuth from '../../useAuth'
 
 const Admin = ({ raceId }) => {
-  const { addLap } = usePushData(raceId)
+  const { start, addLap } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
@@ -13,6 +13,7 @@ const Admin = ({ raceId }) => {
   return (
     <div>
       <button onClick={logout}>logout</button>
+      <button onClick={start}>Start</button>
       <button onClick={addLap}>Trigger lap</button>
     </div>
   )

@@ -15,6 +15,7 @@ const Race = ({ raceId }) => {
     <Switch>
       <Route path={[ `${match.url}/admin`, '/admin' ]}>
         <Admin raceId={thisRaceId} />
+        <ReactTable data={data} />
       </Route>
       <Route path={`${match.url}/`}>
         <ReactTable data={data} />
