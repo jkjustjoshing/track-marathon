@@ -14,3 +14,6 @@ export const duration = ({ start, end }) => {
 
   return seconds[1] - seconds[0]
 }
+
+export const metersToMiles = meters => meters * 0.6213712 / 1000
+export const milesToMeters = miles => miles / 0.6213712 * 1000
