@@ -1,0 +1,15 @@
+.admin__placeholder {
+  height: 25vh;
+}
+.admin__wrapper {
+  width: 100vw;
+  height: 25vh;
+  display: flex;
+
+}
+.admin__wrapper button {
+  flex: 1;
+  background: lavender;
+  font-size: 20px;
+  border: 3px solid lightblue;
+}

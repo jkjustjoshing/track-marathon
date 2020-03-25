@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 
+// Make easily overrideable for testing
+window.getCurrentDate = () => new Date()
+
 const secondsToTime = (time, decimals = 0) => {
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor(time / 60 - (hours * 60))
@@ -19,7 +22,7 @@ const secondsToTime = (time, decimals = 0) => {
 }
 
 const ElapsedTime = ({ time, duration, decimals = 0 }) => {
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState(window.getCurrentDate())
 
   useEffect(() => {
     if (duration) {
@@ -28,7 +31,7 @@ const ElapsedTime = ({ time, duration, decimals = 0 }) => {
 
     let raf
     const updateTime = () => {
-      setCurrentTime(new Date())
+      setCurrentTime(window.getCurrentDate())
       // for(let i = 0; i < 300000000; i++) {}
       raf = requestAnimationFrame(updateTime)
     }
@@ -41,9 +44,11 @@ const ElapsedTime = ({ time, duration, decimals = 0 }) => {
 
   if (duration) {
     return secondsToTime(duration)
+  } else if (time) {
+    return secondsToTime(((currentTime.getTime() / 1000) - time.seconds), decimals)
   }
+  return 'unknown'
 
-  return secondsToTime(((currentTime.getTime() / 1000) - time.seconds), decimals)
 }
 
 export default ElapsedTime

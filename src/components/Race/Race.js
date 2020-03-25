@@ -14,8 +14,9 @@ const Race = ({ raceId }) => {
   return (
     <Switch>
       <Route path={[ `${match.url}/admin`, '/admin' ]}>
-        <Admin raceId={thisRaceId} />
-        <ReactTable data={data} />
+        <Admin raceId={thisRaceId}>
+          <ReactTable data={data} />
+        </Admin>
       </Route>
       <Route path={`${match.url}/`}>
         <ReactTable data={data} />
@@ -32,7 +33,7 @@ export const RedirectToDefaultRace = () => {
 
   useEffect(() => {
     if (data) {
-      history.push('/' + data.id)
+      history.replace('/' + data.id)
     }
   }, [data, history])
   return null

@@ -19,12 +19,18 @@ const RaceTable = ({ data }) => {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td>{data.laps.length + 1}</td>
+            <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={2} /></td>
+            <td>{data.laps.length}</td>
+            <td> - </td>
+          </tr>
           {
-            data.laps.map((lap, index) => {
+            data.laps.reverse().map((lap, index) => {
               const duration = lap.end.seconds - lap.start.seconds
               return (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  <td>{data.laps.length - index}</td>
                   <td><ElapsedTime duration={duration} /></td>
                   <td><ElapsedTime duration={(1600 / lap.distance) * duration} /> per mile</td>
                   <td>{JSON.stringify(lap)}</td>
@@ -32,12 +38,6 @@ const RaceTable = ({ data }) => {
               )
             })
           }
-          <tr>
-            <td>{data.laps.length + 1}</td>
-            <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={2} /></td>
-            <td>{data.laps.length}</td>
-            <td> - </td>
-          </tr>
         </tbody>
       </table>
     </>

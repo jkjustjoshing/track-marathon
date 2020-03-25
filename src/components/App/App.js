@@ -10,16 +10,20 @@ import {
 const App = () => {
 
   return (
-    <Router>
-      <Switch>
-        <Route path='/:raceId' render={({ raceId }) => (
-          <Race raceId={raceId} />
-        )} />
-        <Route path='/'>
-          <RedirectToDefaultRace />
-        </Route>
-      </Switch>
-    </Router>
+    <>
+      <h1>Track Marathon</h1>
+      <p>One man. One quarantine. One track. One marathon.</p>
+      <Router>
+        <Switch>
+          <Route path='/:raceId' render={({ raceId }) => (
+            <Race raceId={raceId} />
+          )} />
+          <Route path='/'>
+            <RedirectToDefaultRace />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 
