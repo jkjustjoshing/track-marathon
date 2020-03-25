@@ -36,6 +36,14 @@ const getDistance = (lapIndex) => ({
   8: 453
 }[lapIndex] || 400)
 
+// const now = (new Date()).getTime()
+// const random10 = () => Math.round((Math.random() * 20) - 10)
+// const randomLaps = Array(23).fill(null).reduce((acc, _, i) => [ ...acc, {
+//   start: acc[acc.length - 1] ? acc[acc.length - 1].end : firebaseDate(now + (((i * 60 * 2) + random10()) * 1000)),
+//   end: firebaseDate(now + ((((i + 1) * 60 * 2) + random10()) * 1000)),
+//   distance: 410 + random10()
+// }], [])
+
 export const usePushData = (id) => {
   const data = useRaceData(id)
   const race = db.collection('races').doc(id)
