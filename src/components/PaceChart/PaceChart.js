@@ -97,7 +97,7 @@ const YAxis = ({ scale }) => {
               <Fragment key={i}>
                 <line x1={0} x2={-5} y1={y} y2={y} style={{ stroke: 'white' }} />
                 {
-                  (i % 2) !== 0 && (
+                  (i % 2) === 0 && (
                     <text x={-7} y={y + (fontSize * 0.3)} style={{ fill: 'white', textAnchor: 'end', fontSize }}>
                       {secondsToTime(secondsPerMile)}/mi
                     </text>
