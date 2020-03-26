@@ -25,7 +25,7 @@ export const useFirebaseData = (collection, id) => {
   return data
 }
 
-const getDistance = (lapIndex) => ({
+const getDistance = (laneNumber) => ({
   1: 400,
   2: 407,
   3: 415,
@@ -34,10 +34,10 @@ const getDistance = (lapIndex) => ({
   6: 433,
   7: 446,
   8: 453
-}[lapIndex] || 400)
+}[laneNumber] || 400)
 
 // const now = (new Date()).getTime()
-// const random10 = () => Math.round((Math.random() * 20) - 10)
+// const random10 = () => Math.round((Math.random() * 4) - 2)
 // const randomLaps = Array(23).fill(null).reduce((acc, _, i) => [ ...acc, {
 //   start: acc[acc.length - 1] ? acc[acc.length - 1].end : firebaseDate(now + (((i * 60 * 2) + random10()) * 1000)),
 //   end: firebaseDate(now + ((((i + 1) * 60 * 2) + random10()) * 1000)),
@@ -48,7 +48,7 @@ export const usePushData = (id) => {
   const data = useRaceData(id)
   const race = db.collection('races').doc(id)
 
-  const addLap = useCallback((lapIndex = 1) => {
+  const addLap = useCallback((laneNumber = 1) => {
     const lapStart = data.laps[data.laps.length - 1]?.end || data.start
     race.set({
       ...data,
@@ -57,7 +57,8 @@ export const usePushData = (id) => {
         {
           start: lapStart,
           end: firebaseDate(),
-          distance: getDistance(lapIndex)
+          distance: getDistance(laneNumber),
+          laneNumber
         }
       ]
     })
