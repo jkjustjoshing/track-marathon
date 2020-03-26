@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ElapsedTime from '../DataFields/ElapsedTime'
 import PaceChart from '../PaceChart/PaceChart'
-import { pace } from '../../utils'
+import { LapsTable, MilesTable } from './Tables'
+import { metersToMiles } from '../../utils'
+
 
 const RaceTable = ({ data }) => {
+  const [reverse, setReverse] = useState(false)
   if (!data) {
     return null
   }
@@ -11,42 +14,40 @@ const RaceTable = ({ data }) => {
   return (
     <>
       Elapsed - <ElapsedTime time={data.start} decimals={2} />
+      Remaining distance - {metersToMiles(data.goal - data.laps.reduce((meters, { distance }) => meters + distance, 0))}
       <PaceChart data={data} />
-      <table id='lap-table'>
-        <thead>
-          <tr>
-            <th>Lap</th>
-            <th>Time</th>
-            <th>Pace</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{data.laps.length + 1}</td>
-            <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={2} /></td>
-            <td>{data.laps.length}</td>
-            <td> - </td>
-          </tr>
-          {
-            [...data.laps].reverse().map((lap, index) => {
-              const duration = lap.end.seconds - lap.start.seconds
-              return (
-                <tr key={index}>
-                  <td>{data.laps.length - index}</td>
-                  <td><ElapsedTime duration={duration} /></td>
-                  <td>
-                    <ElapsedTime duration={pace({ distance: lap.distance, duration })} /> per mile
-                  </td>
-                  <td>{JSON.stringify(lap)}</td>
-                </tr>
-              )
-            })
-          }
-        </tbody>
-      </table>
+      <Tabs tabs={[
+        {
+          name: 'Laps',
+          element: <LapsTable data={data} reverse={reverse} />
+        },
+        {
+          name: 'Miles',
+          element: <MilesTable data={data} reverse={reverse} />
+        }
+      ]}>
+        <button onClick={() => setReverse(r => !r)}>Reverse</button>
+      </Tabs>
     </>
   )
 }
 
 export default RaceTable
+
+const Tabs = ({ tabs, children }) => {
+  const [tabIndex, setTabIndex] = useState(0)
+
+  return (
+    <div>
+      <div className='tabs'>
+        {
+          tabs.map(({ name }, index) => (
+            <button key={index} onClick={() => setTabIndex(index)}>{name}</button>
+          ))
+        }
+      </div>
+      {children}
+      <div className='tab-panel'>{tabs[tabIndex].element}</div>
+    </div>
+  )
+}
