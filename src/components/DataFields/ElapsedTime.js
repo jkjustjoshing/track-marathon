@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, memo } from 'react'
 
 // Make easily overrideable for testing
 window.getCurrentDate = () => new Date()
@@ -21,18 +21,13 @@ export const secondsToTime = (time, decimals = 0) => {
     .join(':') + (decimals ? ('.' + String(afterDecimal).padEnd(decimals, '0')) : '')
 }
 
-const ElapsedTime = ({ time, duration, decimals = 0 }) => {
+const StoTCurrent = ({ time, decimals }) => {
   const [currentTime, setCurrentTime] = useState(window.getCurrentDate())
 
   useEffect(() => {
-    if (duration) {
-      return
-    }
-
     let raf
     const updateTime = () => {
       setCurrentTime(window.getCurrentDate())
-      // for(let i = 0; i < 300000000; i++) {}
       raf = requestAnimationFrame(updateTime)
     }
 
@@ -40,15 +35,18 @@ const ElapsedTime = ({ time, duration, decimals = 0 }) => {
     return () => {
       cancelAnimationFrame(raf)
     }
-  }, [duration])
+  }, [])
 
-  if (duration) {
+  return secondsToTime(((currentTime.getTime() / 1000) - time.seconds), decimals)
+}
+
+const ElapsedTime = memo(({ time, duration, decimals = 0 }) => {
+  if (typeof duration === 'number') {
     return secondsToTime(duration)
   } else if (time) {
-    return secondsToTime(((currentTime.getTime() / 1000) - time.seconds), decimals)
+    return <StoTCurrent time={time} decimals={decimals} />
   }
   return 'unknown'
-
-}
+})
 
 export default ElapsedTime

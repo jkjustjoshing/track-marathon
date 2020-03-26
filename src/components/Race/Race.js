@@ -15,11 +15,11 @@ const Race = ({ raceId }) => {
     <Switch>
       <Route path={[ `${match.url}/admin`, '/admin' ]}>
         <Admin raceId={thisRaceId}>
-          <RaceTable data={data} />
+          <RaceView data={data} />
         </Admin>
       </Route>
       <Route path={`${match.url}/`}>
-        <RaceTable data={data} />
+        <RaceView data={data} />
       </Route>
     </Switch>
   );
