@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Admin from '../Admin/Admin'
 import useRaceData, { useFirebaseData } from '../../useRaceData'
-import ReactTable from '../RaceTable/RaceTable'
+import RaceView from '../RaceView/RaceView'
 import { useParams, useRouteMatch, Route, Switch, useHistory } from 'react-router-dom'
 import './Race.css';
 
@@ -15,11 +15,11 @@ const Race = ({ raceId }) => {
     <Switch>
       <Route path={[ `${match.url}/admin`, '/admin' ]}>
         <Admin raceId={thisRaceId}>
-          <ReactTable data={data} />
+          <RaceTable data={data} />
         </Admin>
       </Route>
       <Route path={`${match.url}/`}>
-        <ReactTable data={data} />
+        <RaceTable data={data} />
       </Route>
     </Switch>
   );
