@@ -26,7 +26,7 @@
     "eject": "react-scripts eject",
     "serve": "firebase serve",
     "login": "firebase login",
-    "deploy": "yarn build && firebase deploy",
+    "deploy": "yarn build && firebase deploy --except functions",
     "deploy:rules": "firebase deploy --only firestore",
     "deploy:functions": "firebase deploy --only functions"
   },
