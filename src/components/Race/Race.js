@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Admin from '../Admin/Admin'
 import useRaceData, { useFirebaseData } from '../../useRaceData'
 import RaceView from '../RaceView/RaceView'
-import { useParams, useRouteMatch, Route, Switch, useHistory } from 'react-router-dom'
+import { useParams, useRouteMatch, Route, Switch, Link } from 'react-router-dom'
 import './Race.css';
 
 const Race = ({ raceId }) => {
@@ -20,6 +20,7 @@ const Race = ({ raceId }) => {
       </Route>
       <Route path={`${match.url}/`}>
         <RaceView data={data} />
+        <Link to={`/${raceId}/admin`}>Admin</Link>
       </Route>
     </Switch>
   );
@@ -29,12 +30,5 @@ export default Race;
 
 export const RedirectToDefaultRace = () => {
   const data = useFirebaseData('app', 'currentRace')
-  const history = useHistory()
-
-  useEffect(() => {
-    if (data) {
-      history.replace('/' + data.id)
-    }
-  }, [data, history])
-  return null
+  return data && <Race raceId={data.id} />
 }

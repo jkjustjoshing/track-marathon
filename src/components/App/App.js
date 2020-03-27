@@ -15,12 +15,12 @@ const App = () => {
       <p>One man. One quarantine. One track. One marathon.</p>
       <Router>
         <Switch>
-          <Route path='/:raceId' render={({ raceId }) => (
-            <Race raceId={raceId} />
-          )} />
-          <Route path='/'>
+          <Route exact path='/'>
             <RedirectToDefaultRace />
           </Route>
+          <Route path={'/:raceId'} render={({ raceId }) => (
+            <Race raceId={raceId} />
+          )} />
         </Switch>
       </Router>
     </TimeSync>
