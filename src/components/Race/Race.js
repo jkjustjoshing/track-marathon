@@ -11,10 +11,10 @@ const Race = ({ raceId }) => {
   const thisRaceId = paramRaceId || raceId
   const data = useRaceData(thisRaceId)
 
-  return (
+  return data && (
     <Switch>
       <Route path={[ `${match.url}/admin`, '/admin' ]}>
-        <Admin raceId={thisRaceId}>
+        <Admin raceId={thisRaceId} data={data}>
           <RaceView data={data} />
         </Admin>
       </Route>

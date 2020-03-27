@@ -7,9 +7,6 @@ import { metersToMiles } from '../../utils'
 
 const RaceTable = ({ data }) => {
   const [reverse, setReverse] = useState(false)
-  if (!data) {
-    return null
-  }
 
   return (
     <>
