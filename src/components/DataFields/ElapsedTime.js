@@ -3,7 +3,8 @@ import React, { useState, useEffect, useMemo, memo } from 'react'
 // Make easily overrideable for testing
 window.getCurrentDate = () => new Date()
 
-export const secondsToTime = (time, decimals = 0) => {
+export const secondsToTime = (inputTime, decimals = 0) => {
+  const time = inputTime > 0 ? inputTime : 0
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor(time / 60 - (hours * 60))
   const seconds = (decimals ? Math.floor : Math.round)(time - (minutes * 60) - (hours * 3600))
