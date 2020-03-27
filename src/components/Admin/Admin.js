@@ -1,12 +1,11 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { usePushData } from '../../useRaceData'
 import useAuth from '../../useAuth'
 import './Admin.css'
 
-const Admin = ({ raceId, children }) => {
-  const { start, addLap } = usePushData(raceId)
+const Admin = ({ raceId, data, children }) => {
+  const { start, addLap, setLane } = usePushData(raceId)
   const { userId, logout } = useAuth()
-  const inputRef = useRef()
 
   if (!userId) {
     return <Login />
@@ -16,10 +15,12 @@ const Admin = ({ raceId, children }) => {
     <div className='admin'>
       <div className='admin__content-wrapper'>{children}</div>
       <div className='admin__wrapper'>
-        <input defaultValue={1} type='number' step={1} min={1} max={6} ref={inputRef} />
+        <select value={data.currentLane} onChange={e => setLane(e.target.value)}>
+          {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
+        </select>
         <button onClick={logout}>logout</button>
         <button onClick={start}>Start</button>
-        <button onClick={() => { addLap(inputRef.current.value) }}>Trigger lap</button>
+        <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>
       </div>
     </div>
   )
