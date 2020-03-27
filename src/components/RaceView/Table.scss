@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -10,7 +12,7 @@
     font-size: 1.2em;
     position: sticky;
     top: 0;
-    background: #a3edf7;
+    background: $background;
     z-index: 1;
   }
 
@@ -19,6 +21,6 @@
   }
 
   tr:nth-child(2n) {
-    background: #95d8e1;
+    background: $shaded-background;
   }
 }

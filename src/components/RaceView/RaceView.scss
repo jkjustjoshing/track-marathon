@@ -1,9 +1,13 @@
+@import "../../variables.scss";
+
 .race-view-header {
-  background: #46206b;
+  background: $secondary-background;
   width: 100%;
-  color: white;
+  color: $secondary-text;
+  font-weight: bold;
   padding: 10px;
   margin-bottom: 20px;
+  font-size: 1.4rem;
 
   p {
     margin: 0;
@@ -35,6 +39,7 @@
     display: inline-block;
     flex: 1 1 50%;
     text-align: center;
+    color: $secondary-text;
 
     position: relative;
     &:before {
@@ -45,7 +50,7 @@
       top: 10px;
       bottom: 10px;
       right: 10px;
-      background: #f3a47f;
+      background: $secondary-background;
       box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.25);
       z-index: -1;
     }
@@ -67,7 +72,7 @@
   position: relative;
   display: inline-flex;
   flex-direction: column;
-  border: 1.5px solid #46206b;
+  border: 1.5px solid $text;
   background: transparent;
   justify-content: center;
   margin: 10px 0 10px 30px;
@@ -86,14 +91,14 @@
 
 .tabs {
   display: flex;
-  border-bottom: 1.5px solid #46206b;
+  border-bottom: 1.5px solid $text;
   padding: 0 10px;
   margin-top: 40px;
 
   &__button {
-    border: 1.5px solid #46206b;
-    background: #a3edf7;
-    color: #46206b;
+    border: 1.5px solid $text;
+    background: $background;
+    color: $text;
     padding: 10px;
     margin-bottom: -1.5px;
     font-size: 1.5rem;
@@ -102,7 +107,7 @@
       border-left-width: 0;
     }
     &--selected {
-      border-bottom-color: #a3edf7;
+      border-bottom-color: $background;
     }
   }
 
