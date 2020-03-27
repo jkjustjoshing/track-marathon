@@ -1,15 +1,17 @@
 import React from 'react'
 import ElapsedTime from '../DataFields/ElapsedTime'
 import { pace, metersToMiles, laneToDistance } from '../../utils'
+import './Table.scss'
 
 export const LapsTable = ({ data, reverse = false }) => {
 
   const currentRow = (
-    <tr>
+    <tr className='table__current-row'>
       <td>{data.laps.length + 1}</td>
       <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={1} /></td>
       <td> - </td>
       <td>{data.currentLane} ({laneToDistance(data.currentLane)}m)</td>
+      <td> - </td>
       <td> - </td>
     </tr>
   )
@@ -23,7 +25,7 @@ export const LapsTable = ({ data, reverse = false }) => {
   }, [])
 
   return (
-    <table>
+    <table className='table'>
       <thead>
         <tr>
           <th>Lap</th>
