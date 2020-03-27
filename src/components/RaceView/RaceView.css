@@ -1,12 +1,12 @@
 .tabs {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #46206b;
   padding: 0 10px;
 }
 
 .tabs__button {
-  border: 1px solid white;
-  background: black;
-  color: white;
+  border: 1px solid #46206b;
+  background: #a3edf7;
+  color: #46206b;
   padding: 10px;
   margin-bottom: -1px;
 }
@@ -14,7 +14,7 @@
   border-right-width: 0;
 }
 .tabs__button--selected {
-  border-bottom-color: black;
+  border-bottom-color: #a3edf7;
 }
 
 .tabs__panel {

@@ -32,13 +32,13 @@ const PaceChart = ({ data }) => {
     .curve(curveMonotoneX)
 
   return (
-    <svg viewBox={`0 0 ${WIDTH + (MARGIN_X * 2)} ${HEIGHT + (MARGIN_Y * 2)}`} width={WIDTH + (MARGIN_X * 2)} height={HEIGHT + (MARGIN_Y * 2)}>
-      <g transform={`translate(${MARGIN_X}, ${MARGIN_Y})`}>
+    <svg viewBox={`0 0 ${WIDTH + (MARGIN_X)} ${HEIGHT + (MARGIN_Y)}`}>
+      <g transform={`translate(${MARGIN_X}, 10)`}>
         <XAxis scale={xScale} />
         <YAxis scale={yScale} />
 
         <path d={linePath(laps)} style={{
-          stroke: 'white',
+          stroke: 'currentColor',
           fill: 'transparent'
         }} />
       </g>
@@ -56,17 +56,17 @@ const XAxis = ({ scale }) => {
 
   return (
     <g data-x-axis transform={`translate(0, ${HEIGHT})`}>
-      <line x1={0} x2={WIDTH} y1={0} y2={0} style={{ stroke: 'white' }} />
+      <line x1={0} x2={WIDTH} y1={0} y2={0} style={{ stroke: 'currentColor' }} />
       <g data-ticks>
         {
           Array(ticks).fill(null).map((_, i) => {
             const x = scale(milesToMeters(i + 1))
             return (
               <Fragment key={i}>
-                <line x1={x} x2={x} y1={0} y2={5} style={{ stroke: 'white' }} />
+                <line x1={x} x2={x} y1={0} y2={5} style={{ stroke: 'currentColor' }} />
                 {
                   (i % 2) !== 0 && (
-                    <text x={x} y={5 + fontSize} style={{ fill: 'white', textAnchor: 'middle', fontSize }}>
+                    <text x={x} y={5 + fontSize} style={{ fill: 'currentColor', textAnchor: 'middle', fontSize }}>
                       {i + 1}
                     </text>
                   )
@@ -87,7 +87,7 @@ const YAxis = ({ scale }) => {
 
   return (
     <g data-y-axis transform={`translate(0, 0)`}>
-      <line x1={0} x2={0} y1={0} y2={HEIGHT} style={{ stroke: 'white' }} />
+      <line x1={0} x2={0} y1={0} y2={HEIGHT} style={{ stroke: 'currentColor' }} />
       <g data-ticks>
         {
           Array(lastTick - firstTick).fill(null).map((_, i) => {
@@ -95,10 +95,10 @@ const YAxis = ({ scale }) => {
             const y = scale(secondsPerMile)
             return (
               <Fragment key={i}>
-                <line x1={0} x2={-5} y1={y} y2={y} style={{ stroke: 'white' }} />
+                <line x1={0} x2={-5} y1={y} y2={y} style={{ stroke: 'currentColor' }} />
                 {
                   (i % 2) === 0 && (
-                    <text x={-7} y={y + (fontSize * 0.3)} style={{ fill: 'white', textAnchor: 'end', fontSize }}>
+                    <text x={-7} y={y + (fontSize * 0.3)} style={{ fill: 'currentColor', textAnchor: 'end', fontSize }}>
                       {secondsToTime(secondsPerMile)}/mi
                     </text>
                   )
