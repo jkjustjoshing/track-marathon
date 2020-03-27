@@ -72,9 +72,14 @@ const RaceTable = ({ data }) => {
             name: 'Miles',
             element: <MilesTable data={data} reverse={reverse} />
           }
-        ]}>
-          <button onClick={() => setReverse(r => !r)}>Reverse</button>
-        </Tabs>
+        ]} postTabs={
+          <button className={classNames('reverse', {
+            'reverse--reverse': reverse
+          })} onClick={() => setReverse(r => !r)}>
+            <div className='reverse__up'>▲</div>
+            <div className='reverse__down'>▼</div>
+          </button>
+        }></Tabs>
       </div>
     </>
   )
@@ -82,7 +87,7 @@ const RaceTable = ({ data }) => {
 
 export default RaceTable
 
-const Tabs = ({ tabs, children }) => {
+const Tabs = ({ tabs, postTabs, children }) => {
   const [tabIndex, setTabIndex] = useState(0)
 
   return (
@@ -93,6 +98,7 @@ const Tabs = ({ tabs, children }) => {
             <button className={classNames('tabs__button', { 'tabs__button--selected': index === tabIndex })} key={index} onClick={() => setTabIndex(index)}>{name}</button>
           ))
         }
+        {postTabs}
       </div>
       {children}
       <div className='tabs__panel'>{tabs[tabIndex].element}</div>
