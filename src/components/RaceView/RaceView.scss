@@ -12,6 +12,10 @@
   p {
     margin: 0;
   }
+  p#{&}__subtitle {
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
 }
 
 .race-view {

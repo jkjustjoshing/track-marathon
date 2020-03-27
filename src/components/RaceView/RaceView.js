@@ -88,23 +88,23 @@ export default ({ data }) => {
       <div className='race-view-header'>
         <h1 className='sr-only'>Track Marathon</h1>
         <p>One man. One quarantine. One track. One marathon.</p>
+        <p className='race-view-header__subtitle'>
+          All of my spring races were cancelled. Since I'm all trained up for a marathon, I'm {data && data.start ? 'racing' : 'going to race'} one...by myself, on a 1/4 mile track!
+        </p>
       </div>
       <div className='race-view'>
         {data && data.start ? <RaceView data={data} /> : (
-          <>
-            <p>Awaiting start</p>
-            <div className='race-view__top'>
-              <div className='race-view__top-data'>
-                <div className='race-view__key'>Estimated time until start</div>
-                <div className='race-view__value'>
-                  {<ElapsedTime negative time={data.scheduledStart} />}
-                  <div className='race-view__sub-data'>
-                    Planned starting time of {estimatedStart}
-                  </div>
+          <div className='race-view__top'>
+            <div className='race-view__top-data'>
+              <div className='race-view__key'>Estimated time until start</div>
+              <div className='race-view__value'>
+                {<ElapsedTime negative time={data.scheduledStart} />}
+                <div className='race-view__sub-data'>
+                  Planned starting time of {estimatedStart}
                 </div>
               </div>
             </div>
-          </>
+          </div>
         )}
       </div>
     </>
