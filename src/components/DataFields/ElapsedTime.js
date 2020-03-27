@@ -37,7 +37,7 @@ const StoTCurrent = ({ time, decimals }) => {
     return () => {
       cancelAnimationFrame(raf)
     }
-  }, [])
+  }, [offset])
 
   return secondsToTime(((currentTime) - time.seconds), decimals)
 }

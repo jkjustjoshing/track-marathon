@@ -38,7 +38,7 @@ export const getDistance = (laneNumber) => ({
   8: 453
 }[laneNumber] || 400)
 
-const generateData = (race, data) => {
+const generateData = (race, data) => { // eslint-disable-line
   const now = (new Date()).getTime()
   const random10 = () => Math.round((Math.random() * 4) - 2)
   const randomLaps = Array(80).fill(null).reduce((acc, _, i) => [ {

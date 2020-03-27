@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Admin from '../Admin/Admin'
 import useRaceData, { useFirebaseData } from '../../useRaceData'
 import RaceView from '../RaceView/RaceView'
