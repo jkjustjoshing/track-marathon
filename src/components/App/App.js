@@ -1,5 +1,6 @@
 import React from 'react';
 import Race, { RedirectToDefaultRace } from '../Race/Race'
+import { TimeSync } from '../../timeSync'
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,9 +9,8 @@ import {
 // import './App.css';
 
 const App = () => {
-
   return (
-    <>
+    <TimeSync>
       <h1>Track Marathon</h1>
       <p>One man. One quarantine. One track. One marathon.</p>
       <Router>
@@ -23,7 +23,7 @@ const App = () => {
           </Route>
         </Switch>
       </Router>
-    </>
+    </TimeSync>
   );
 }
 

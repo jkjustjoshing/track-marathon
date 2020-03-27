@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo, memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
+import { useTimeSync } from '../../timeSync'
 
-// Make easily overrideable for testing
-window.getCurrentDate = () => new Date()
+const getCurrentTime = (offset) => ((new Date()).getTime() + offset) / 1000
 
 export const secondsToTime = (inputTime, decimals = 0) => {
   const time = inputTime > 0 ? inputTime : 0
@@ -23,12 +23,13 @@ export const secondsToTime = (inputTime, decimals = 0) => {
 }
 
 const StoTCurrent = ({ time, decimals }) => {
-  const [currentTime, setCurrentTime] = useState(window.getCurrentDate())
+  const offset = useTimeSync()
+  const [currentTime, setCurrentTime] = useState(getCurrentTime(offset))
 
   useEffect(() => {
     let raf
     const updateTime = () => {
-      setCurrentTime(window.getCurrentDate())
+      setCurrentTime(getCurrentTime(offset))
       raf = requestAnimationFrame(updateTime)
     }
 
@@ -38,7 +39,7 @@ const StoTCurrent = ({ time, decimals }) => {
     }
   }, [])
 
-  return secondsToTime(((currentTime.getTime() / 1000) - time.seconds), decimals)
+  return secondsToTime(((currentTime) - time.seconds), decimals)
 }
 
 const ElapsedTime = memo(({ time, duration, decimals = 0 }) => {
