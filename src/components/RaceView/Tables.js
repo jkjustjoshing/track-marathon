@@ -1,6 +1,6 @@
 import React from 'react'
 import ElapsedTime from '../DataFields/ElapsedTime'
-import { pace, metersToMiles, laneToDistance } from '../../utils'
+import { pace, duration, metersToMiles, milesToMeters, laneToDistance, firebaseDate } from '../../utils'
 import './Table.scss'
 
 export const LapsTable = ({ data, reverse = false }) => {
@@ -66,29 +66,55 @@ export const LapsTable = ({ data, reverse = false }) => {
   )
 }
 
+const oneMileInMeters = milesToMeters(1)
+
 export const MilesTable = ({ data, reverse = false }) => {
+
+  const miles = data.laps.reduce((acc, nextLap) => {
+    if (acc.currentMile.distance + nextLap.distance < oneMileInMeters) {
+      // No new mile
+      acc.currentMile.distance += nextLap.distance
+      acc.currentMile.start = acc.currentMile.start || nextLap.start
+    } else {
+      const lapDuration = duration(nextLap)
+      // Push new mile
+      const percentOfLapInMile = (oneMileInMeters - acc.currentMile.distance) / nextLap.distance
+      const timeInMile = lapDuration * percentOfLapInMile
+
+      const end = firebaseDate(0, (nextLap.start.seconds + timeInMile) * 1000)
+      acc.miles.push({
+        start: acc.currentMile.start,
+        end: end
+      })
+      acc.currentMile.distance = nextLap.distance * (1 - percentOfLapInMile)
+      acc.currentMile.start = end
+    }
+
+    console.log(JSON.parse(JSON.stringify(acc)))
+    return acc
+  }, { miles: [], currentMile: { distance: 0 } }).miles
+
   return (
-    <table>
+    <table className='table'>
       <thead>
         <tr>
-          <th>Mile</th>
-          <th>Approx Mile Pace</th>
-          <th>Approx Mile Time</th>
-          <th>Approx Elapsed Time</th>
+          <th style={{ width: '30px' }}>Mile</th>
+          <th>Time (pace)</th>
+          <th>Total Time</th>
         </tr>
       </thead>
       <tbody>
         {
-          [...data.laps].reverse().map((lap, index) => {
-            const duration = lap.end.seconds - lap.start.seconds
+          (reverse ? miles : [...miles].reverse()).map((mile, index) => {
+            const duration = mile.end.seconds - mile.start.seconds
+            const totalDuration = mile.end.seconds - miles[0].start.seconds
+            const mileId = reverse ? index + 1 : miles.length - index
+
             return (
-              <tr key={index}>
-                <td>{data.laps.length - index}</td>
+              <tr key={mileId}>
+                <td>{mileId}</td>
                 <td><ElapsedTime duration={duration} /></td>
-                <td>
-                  <ElapsedTime duration={pace({ distance: lap.distance, duration })} /> per mile
-                </td>
-                <td>{JSON.stringify(lap)}</td>
+                <td><ElapsedTime duration={totalDuration} /></td>
               </tr>
             )
           })
@@ -97,3 +123,4 @@ export const MilesTable = ({ data, reverse = false }) => {
     </table>
   )
 }
+

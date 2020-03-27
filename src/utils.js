@@ -28,3 +28,12 @@ export const laneToDistance = (laneNumber) => ({
   7: 446,
   8: 453
 }[laneNumber] || 400)
+
+export const firebaseDate = (offset, date) => {
+  // When passing undefined, args.length should equal 0
+  const dateObj = date ? new Date(date) : new Date()
+  if (!date) {
+    dateObj.setTime(dateObj.getTime() + offset)
+  }
+  return window.firebase.firestore.Timestamp.fromDate(dateObj)
+}

@@ -1,13 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTimeSync } from './timeSync'
-import { laneToDistance } from './utils'
-
-const firebaseDate = (offset, date) => {
-  // When passing undefined, args.length should equal 0
-  const dateObj = new Date(...([date].filter(Boolean)))
-  dateObj.setTime(dateObj.getTime() + offset)
-  return window.firebase.firestore.Timestamp.fromDate(dateObj)
-}
+import { laneToDistance, firebaseDate } from './utils'
 
 const db = window.firebase.firestore()
 
