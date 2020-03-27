@@ -25,52 +25,57 @@ const RaceTable = ({ data }) => {
 
   return (
     <>
-      <h1 className='sr-only'>Track Marathon</h1>
-      <p className='race-view__elapsed'>
-        <ElapsedTime time={data.start} decimals={2} />
-      </p>
-      <p>One man. One quarantine. One track. One marathon.</p>
+      <div className='race-view-header'>
+        <h1 className='sr-only'>Track Marathon</h1>
+        <p>One man. One quarantine. One track. One marathon.</p>
+      </div>
+      <div className='race-view'>
 
-      <div className='race-view__head'>
-        <div className='race-view__top-data'>
-          <div className='race-view__key'>Remaining distance</div>
-          <div className='race-view__value'>
-            {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
-            <div className='race-view__sub-data'>
-              {((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+        <p className='race-view__elapsed'>
+          <div className='race-view__elapsed__key'>Race clock</div>
+          <ElapsedTime time={data.start} decimals={0} />
+        </p>
+        <div className='race-view__top'>
+          <div className='race-view__top-data'>
+            <div className='race-view__key'>Remaining distance</div>
+            <div className='race-view__value'>
+              {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
+              <div className='race-view__sub-data'>
+                {((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+              </div>
             </div>
           </div>
-        </div>
-        <div className='race-view__top-data'>
-          <div className='race-view__key'>Estimated finish time</div>
-          <div className='race-view__value'>
-            <ElapsedTime duration={estimatedFinishTime} />
-            <div className='race-view__sub-data'>approx {estimatedFinishClock}</div>
+          <div className='race-view__top-data'>
+            <div className='race-view__key'>Estimated finish time</div>
+            <div className='race-view__value'>
+              <ElapsedTime duration={estimatedFinishTime} />
+              <div className='race-view__sub-data'>approx {estimatedFinishClock}</div>
+            </div>
+          </div>
+          <div className='race-view__top-data'>
+            <div className='race-view__key'>Average pace</div>
+            <div className='race-view__value'><ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile</div>
+          </div>
+          <div className='race-view__top-data'>
+            <div className='race-view__key'>Josh is currently running in lane</div>
+            <div className='race-view__value'>{data.currentLane}</div>
           </div>
         </div>
-        <div className='race-view__top-data'>
-          <div className='race-view__key'>Average pace</div>
-          <div className='race-view__value'><ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile</div>
-        </div>
-        <div className='race-view__top-data'>
-          <div className='race-view__key'>Josh is currently running in lane</div>
-          <div className='race-view__value'>{data.currentLane}</div>
-        </div>
-      </div>
 
-      <PaceChart data={data} />
-      <Tabs tabs={[
-        {
-          name: 'Laps',
-          element: <LapsTable data={data} reverse={reverse} />
-        },
-        {
-          name: 'Miles',
-          element: <MilesTable data={data} reverse={reverse} />
-        }
-      ]}>
-        <button onClick={() => setReverse(r => !r)}>Reverse</button>
-      </Tabs>
+        <PaceChart data={data} />
+        <Tabs tabs={[
+          {
+            name: 'Laps',
+            element: <LapsTable data={data} reverse={reverse} />
+          },
+          {
+            name: 'Miles',
+            element: <MilesTable data={data} reverse={reverse} />
+          }
+        ]}>
+          <button onClick={() => setReverse(r => !r)}>Reverse</button>
+        </Tabs>
+      </div>
     </>
   )
 }
