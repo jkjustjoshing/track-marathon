@@ -27,7 +27,7 @@ export const useFirebaseData = (collection, id) => {
   return data
 }
 
-const getDistance = (laneNumber) => ({
+export const getDistance = (laneNumber) => ({
   1: 400,
   2: 407,
   3: 415,

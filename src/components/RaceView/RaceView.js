@@ -4,6 +4,7 @@ import ElapsedTime from '../DataFields/ElapsedTime'
 import PaceChart from '../PaceChart/PaceChart'
 import { LapsTable, MilesTable } from './Tables'
 import { metersToMiles, duration, pace } from '../../utils'
+import { getDistance } from '../../useRaceData'
 import './RaceView.css'
 
 
@@ -28,7 +29,11 @@ const RaceTable = ({ data }) => {
         Elapsed - <ElapsedTime time={data.start} decimals={2} />
       </div>
       <div>
-        Remaining distance - {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles (X laps)
+        Josh is running in lane {data.currentLane} right now.
+      </div>
+      <div>
+        Remaining distance - {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
+        ({((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane})
       </div>
       <div>
         Estimated finish time - <ElapsedTime duration={estimatedFinishTime} /> (approx {estimatedFinishClock})
