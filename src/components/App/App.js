@@ -11,8 +11,6 @@ import {
 const App = () => {
   return (
     <TimeSync>
-      <h1>Track Marathon</h1>
-      <p>One man. One quarantine. One track. One marathon.</p>
       <Router>
         <Switch>
           <Route exact path='/'>

@@ -5,7 +5,7 @@ import PaceChart from '../PaceChart/PaceChart'
 import { LapsTable, MilesTable } from './Tables'
 import { metersToMiles, duration, pace } from '../../utils'
 import { getDistance } from '../../useRaceData'
-import './RaceView.css'
+import './RaceView.scss'
 
 
 const RaceTable = ({ data }) => {
@@ -25,21 +25,37 @@ const RaceTable = ({ data }) => {
 
   return (
     <>
-      <div>
-        Elapsed - <ElapsedTime time={data.start} decimals={2} />
-      </div>
-      <div>
-        Josh is running in lane {data.currentLane} right now.
-      </div>
-      <div>
-        Remaining distance - {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
-        ({((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane})
-      </div>
-      <div>
-        Estimated finish time - <ElapsedTime duration={estimatedFinishTime} /> (approx {estimatedFinishClock})
-      </div>
-      <div>
-        Average pace - <ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile
+      <h1 className='sr-only'>Track Marathon</h1>
+      <p className='race-view__elapsed'>
+        <ElapsedTime time={data.start} decimals={2} />
+      </p>
+      <p>One man. One quarantine. One track. One marathon.</p>
+
+      <div className='race-view__head'>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Remaining distance</div>
+          <div className='race-view__value'>
+            {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
+            <div className='race-view__sub-data'>
+              {((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+            </div>
+          </div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Estimated finish time</div>
+          <div className='race-view__value'>
+            <ElapsedTime duration={estimatedFinishTime} />
+            <div className='race-view__sub-data'>approx {estimatedFinishClock}</div>
+          </div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Average pace</div>
+          <div className='race-view__value'><ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile</div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Josh is currently running in lane</div>
+          <div className='race-view__value'>{data.currentLane}</div>
+        </div>
       </div>
 
       <PaceChart data={data} />
