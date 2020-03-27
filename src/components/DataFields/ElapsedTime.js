@@ -12,7 +12,7 @@ export const secondsToTime = (inputTime, decimals = 0, negative) => {
   }
   const hours = Math.floor(time / 3600)
   const minutes = Math.floor(time / 60 - (hours * 60))
-  const seconds = (decimals ? Math.floor : Math.round)(time - (minutes * 60) - (hours * 3600))
+  const seconds = Math.floor(time - (minutes * 60) - (hours * 3600))
 
   const mult = Math.pow(10, decimals)
   const afterDecimal = Math.floor((time - Math.floor(time)) * mult)
