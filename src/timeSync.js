@@ -14,7 +14,8 @@ export const TimeSync = ({ children }) => {
   }, [])
 
   if (error) {
-    return 'There was an error. Please refresh the page.'
+    console.log(error)
+    return 'There was an error. Please refresh the page. If you have a content blocker like uMatrix, make sure it allows all network requests.'
   }
   if (!offset) {
     return 'Loading...'
