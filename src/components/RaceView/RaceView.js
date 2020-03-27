@@ -7,21 +7,82 @@ import { metersToMiles, duration, pace, laneToDistance } from '../../utils'
 import './RaceView.scss'
 
 
-const RaceTable = ({ data }) => {
+const RaceView = ({ data }) => {
   const [reverse, setReverse] = useState(false)
 
   const elapsedDistance = data.laps.reduce((meters, { distance }) => meters + distance, 0)
-  const elapsedDuration = duration({ start: data.laps[0].start, end: data.laps[data.laps.length - 1].end })
+  const elapsedDuration = data.laps[0] ? duration({ start: data.laps[0].start, end: data.laps[data.laps.length - 1].end }) : '-'
   const estimatedFinishTime = elapsedDuration / elapsedDistance * data.goal
 
-  const time = new Date((data.laps[0].start.seconds + estimatedFinishTime) * 1000)
-
-  const estimatedFinishClock = time.toLocaleString('en-US', {
+  const time = data.laps[0] ? new Date((data.laps[0].start.seconds + estimatedFinishTime) * 1000) : null
+  const estimatedFinishClock = time ? time.toLocaleString('en-US', {
     hour: 'numeric',
     minute: '2-digit',
     timeZoneName: 'short'
-  })
+  }) : '-'
 
+  return (
+    <>
+      <p className='race-view__elapsed'>
+        <span className='race-view__elapsed__key'>Race clock</span>
+        <ElapsedTime time={data.start} decimals={0} />
+      </p>
+      <div className='race-view__top'>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Remaining distance</div>
+          <div className='race-view__value'>
+            {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
+            <div className='race-view__sub-data'>
+              {((data.goal - elapsedDistance) / laneToDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+            </div>
+          </div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Estimated finish time</div>
+          <div className='race-view__value'>
+            <ElapsedTime duration={estimatedFinishTime} />
+            <div className='race-view__sub-data'>approx {estimatedFinishClock}</div>
+          </div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Average pace</div>
+          <div className='race-view__value'><ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile</div>
+        </div>
+        <div className='race-view__top-data'>
+          <div className='race-view__key'>Josh is currently running in lane</div>
+          <div className='race-view__value'>{data.currentLane}</div>
+        </div>
+      </div>
+
+      { data.laps.length && <PaceChart data={data} /> }
+      <Tabs tabs={[
+        {
+          name: 'Laps',
+          element: <LapsTable data={data} reverse={reverse} />
+        },
+        {
+          name: 'Miles',
+          element: <MilesTable data={data} reverse={reverse} />
+        }
+      ]} postTabs={
+        <button className={classNames('reverse', {
+          'reverse--reverse': reverse
+        })} onClick={() => setReverse(r => !r)}>
+          <div className='reverse__up'>▲</div>
+          <div className='reverse__down'>▼</div>
+        </button>
+      }></Tabs>
+    </>
+  )
+}
+
+export default ({ data }) => {
+  const time = data.scheduledStart ? new Date(data.scheduledStart.seconds * 1000) : null
+  const estimatedStart = time ? time.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  }) : '-'
   return (
     <>
       <div className='race-view-header'>
@@ -29,62 +90,26 @@ const RaceTable = ({ data }) => {
         <p>One man. One quarantine. One track. One marathon.</p>
       </div>
       <div className='race-view'>
-
-        <p className='race-view__elapsed'>
-          <span className='race-view__elapsed__key'>Race clock</span>
-          <ElapsedTime time={data.start} decimals={0} />
-        </p>
-        <div className='race-view__top'>
-          <div className='race-view__top-data'>
-            <div className='race-view__key'>Remaining distance</div>
-            <div className='race-view__value'>
-              {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
-              <div className='race-view__sub-data'>
-                {((data.goal - elapsedDistance) / laneToDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+        {data && data.start ? <RaceView data={data} /> : (
+          <>
+            <p>Awaiting start</p>
+            <div className='race-view__top'>
+              <div className='race-view__top-data'>
+                <div className='race-view__key'>Estimated time until start</div>
+                <div className='race-view__value'>
+                  {<ElapsedTime negative time={data.scheduledStart} />}
+                  <div className='race-view__sub-data'>
+                    Planned starting time of {estimatedStart}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className='race-view__top-data'>
-            <div className='race-view__key'>Estimated finish time</div>
-            <div className='race-view__value'>
-              <ElapsedTime duration={estimatedFinishTime} />
-              <div className='race-view__sub-data'>approx {estimatedFinishClock}</div>
-            </div>
-          </div>
-          <div className='race-view__top-data'>
-            <div className='race-view__key'>Average pace</div>
-            <div className='race-view__value'><ElapsedTime duration={pace({ duration: elapsedDuration, distance: elapsedDistance })} /> / mile</div>
-          </div>
-          <div className='race-view__top-data'>
-            <div className='race-view__key'>Josh is currently running in lane</div>
-            <div className='race-view__value'>{data.currentLane}</div>
-          </div>
-        </div>
-
-        <PaceChart data={data} />
-        <Tabs tabs={[
-          {
-            name: 'Laps',
-            element: <LapsTable data={data} reverse={reverse} />
-          },
-          {
-            name: 'Miles',
-            element: <MilesTable data={data} reverse={reverse} />
-          }
-        ]} postTabs={
-          <button className={classNames('reverse', {
-            'reverse--reverse': reverse
-          })} onClick={() => setReverse(r => !r)}>
-            <div className='reverse__up'>▲</div>
-            <div className='reverse__down'>▼</div>
-          </button>
-        }></Tabs>
+          </>
+        )}
       </div>
     </>
   )
 }
-
-export default RaceTable
 
 const Tabs = ({ tabs, postTabs, children }) => {
   const [tabIndex, setTabIndex] = useState(0)
