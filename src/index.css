@@ -1,6 +1,7 @@
 body {
   background: #a3edf7;
   color: #46206b;
+  font-family: 'Roboto', sans-serif;
 }
 
 body, html {
@@ -11,4 +12,17 @@ body, html {
 
 #root {
   max-height: 100vh;
+}
+
+.sr-only {
+  position: absolute;
+  overflow: hidden;
+  left: -1000px;
+  width: 1px;
+  height: 1px;
+  display: block;
+}
+
+* {
+  box-sizing: border-box;
 }
