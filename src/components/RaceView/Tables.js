@@ -1,14 +1,15 @@
 import React from 'react'
 import ElapsedTime from '../DataFields/ElapsedTime'
-import { pace, metersToMiles } from '../../utils'
+import { pace, metersToMiles, laneToDistance } from '../../utils'
 
 export const LapsTable = ({ data, reverse = false }) => {
 
   const currentRow = (
     <tr>
       <td>{data.laps.length + 1}</td>
-      <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={2} /></td>
-      <td>{data.laps.length}</td>
+      <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={1} /></td>
+      <td> - </td>
+      <td>{data.currentLane} ({laneToDistance(data.currentLane)}m)</td>
       <td> - </td>
     </tr>
   )
@@ -41,7 +42,6 @@ export const LapsTable = ({ data, reverse = false }) => {
             const totalDuration = lap.end.seconds - laps[0].start.seconds
             const lapId = reverse ? index + 1 : data.laps.length - index
 
-            console.log(laps[0].start, lap.end)
             return (
               <tr key={lapId}>
                 <td>{lapId}</td>

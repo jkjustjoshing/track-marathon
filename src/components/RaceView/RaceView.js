@@ -3,8 +3,7 @@ import classNames from 'classnames'
 import ElapsedTime from '../DataFields/ElapsedTime'
 import PaceChart from '../PaceChart/PaceChart'
 import { LapsTable, MilesTable } from './Tables'
-import { metersToMiles, duration, pace } from '../../utils'
-import { getDistance } from '../../useRaceData'
+import { metersToMiles, duration, pace, laneToDistance } from '../../utils'
 import './RaceView.scss'
 
 
@@ -32,7 +31,7 @@ const RaceTable = ({ data }) => {
       <div className='race-view'>
 
         <p className='race-view__elapsed'>
-          <div className='race-view__elapsed__key'>Race clock</div>
+          <span className='race-view__elapsed__key'>Race clock</span>
           <ElapsedTime time={data.start} decimals={0} />
         </p>
         <div className='race-view__top'>
@@ -41,7 +40,7 @@ const RaceTable = ({ data }) => {
             <div className='race-view__value'>
               {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
               <div className='race-view__sub-data'>
-                {((data.goal - elapsedDistance) / getDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+                {((data.goal - elapsedDistance) / laneToDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
               </div>
             </div>
           </div>

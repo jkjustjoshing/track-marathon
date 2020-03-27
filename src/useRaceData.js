@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useTimeSync } from './timeSync'
+import { laneToDistance } from './utils'
 
 const firebaseDate = (offset, date) => {
   // When passing undefined, args.length should equal 0
@@ -26,17 +27,6 @@ export const useFirebaseData = (collection, id) => {
   }, [collection, id])
   return data
 }
-
-export const getDistance = (laneNumber) => ({
-  1: 400,
-  2: 407,
-  3: 415,
-  4: 423,
-  5: 430,
-  6: 433,
-  7: 446,
-  8: 453
-}[laneNumber] || 400)
 
 const generateData = (race, data) => { // eslint-disable-line
   const now = (new Date()).getTime()
@@ -69,7 +59,7 @@ export const usePushData = (id) => {
         {
           start: lapStart,
           end: firebaseDate(offset),
-          distance: getDistance(laneNumber),
+          distance: laneToDistance(laneNumber),
           laneNumber
         }
       ]

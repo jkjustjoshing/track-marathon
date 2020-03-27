@@ -17,3 +17,14 @@ export const duration = ({ start, end }) => {
 
 export const metersToMiles = meters => meters * 0.6213712 / 1000
 export const milesToMeters = miles => miles / 0.6213712 * 1000
+
+export const laneToDistance = (laneNumber) => ({
+  1: 400,
+  2: 407,
+  3: 415,
+  4: 423,
+  5: 430,
+  6: 433,
+  7: 446,
+  8: 453
+}[laneNumber] || 400)
