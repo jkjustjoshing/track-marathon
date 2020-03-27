@@ -47,7 +47,7 @@ export const LapsTable = ({ data, reverse = false }) => {
                 <td>{lapId}</td>
                 <td><ElapsedTime duration={duration} /></td>
                 <td>
-                  <ElapsedTime duration={pace({ distance: lap.distance, duration })} /> per mile
+                  <ElapsedTime duration={pace({ distance: lap.distance, duration })} /> / mile
                 </td>
                 <td>
                   {lap.laneNumber} ({lap.distance}m)

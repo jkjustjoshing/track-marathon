@@ -1,0 +1,22 @@
+.tabs {
+  border-bottom: 1px solid white;
+  padding: 0 10px;
+}
+
+.tabs__button {
+  border: 1px solid white;
+  background: black;
+  color: white;
+  padding: 10px;
+  margin-bottom: -1px;
+}
+.tabs__button:not(:last-child) {
+  border-right-width: 0;
+}
+.tabs__button--selected {
+  border-bottom-color: black;
+}
+
+.tabs__panel {
+
+}
