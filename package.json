@@ -20,7 +20,8 @@
   },
   "scripts": {
     "start": "HOST= BROWSER=none react-scripts start",
-    "develop": "rm -rf build; concurrently --kill-others \"yarn start\" \"yarn serve\"",
+    "develop": "rm -rf build; concurrently --kill-others \"yarn start\" \"yarn serve\" \"yarn emulator:functions\"",
+    "emulator:functions": "firebase emulators:start --only functions",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
