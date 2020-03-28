@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react'
+import React, { useState, useReducer, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { LapsTable } from '../RaceView/Tables'
 import { RemainingDistance } from '../DataFields'
@@ -33,7 +33,7 @@ const Admin = ({ raceId }) => {
           <>
             {!started && <button onClick={start}>Start</button>}
 
-            {started && !showEnd && <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>}
+            {started && !showEnd && <TempDisable onClick={() => { addLap(data.currentLane) }}>Trigger lap</TempDisable>}
             {showEnd && <button onClick={() => end(remainingDistance)}>Finish</button>}
             {Boolean(data.laps.length) && <button onClick={() => { removeLap() }}>Undo last lap</button>}
           </>
@@ -102,5 +102,26 @@ const ConfirmButton = ({ onClick, ...props }) => {
         )
       }
     </>
+  )
+}
+
+const TempDisable = ({ onClick, ...props }) => {
+  const [disabled, setDisabled] = useState(false)
+
+  useEffect(() => {
+    if (disabled) {
+      setTimeout(() => {
+        setDisabled(false)
+      }, 5000)
+    }
+  }, [disabled])
+
+  const click = (e) => {
+    setDisabled(true)
+    onClick && onClick(e)
+  }
+
+  return (
+    <button {...props} onClick={click} disabled={disabled} />
   )
 }
