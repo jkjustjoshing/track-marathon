@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
 import { useTimeSync } from './timeSync'
 import { laneToDistance, firebaseDate } from './utils'
 
@@ -75,4 +75,16 @@ export const usePushData = (id) => {
   }, [race, data])
 
   return { start, addLap, setLane }
+}
+
+const raceContext = createContext(null)
+export const useRaceContext = () => useContext(raceContext)
+export const RaceContextProvider = ({ data, children }) => {
+  const elapsedDistance = data.laps.reduce((meters, { distance }) => meters + distance, 0)
+
+  const value = useMemo(() => ({
+    data,
+    elapsedDistance
+  }), [data, elapsedDistance])
+  return <raceContext.Provider value={value} children={children} />
 }

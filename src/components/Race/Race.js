@@ -1,6 +1,6 @@
 import React from 'react';
 import Admin from '../Admin/Admin'
-import useRaceData, { useFirebaseData } from '../../useRaceData'
+import useRaceData, { useFirebaseData, RaceContextProvider } from '../../useRaceData'
 import RaceView from '../RaceView/RaceView'
 import { useParams, useRouteMatch, Route, Switch, Link } from 'react-router-dom'
 import './Race.css';
@@ -12,15 +12,17 @@ const Race = ({ raceId }) => {
   const data = useRaceData(thisRaceId)
 
   return data && (
-    <Switch>
-      <Route path={[ `${match.url}/admin`, '/admin' ]}>
-        <Admin raceId={thisRaceId} data={data} />
-      </Route>
-      <Route path={`${match.url}/`}>
-        <RaceView data={data} />
-        <Link to={`${thisRaceId}/admin`}>Admin</Link>
-      </Route>
-    </Switch>
+    <RaceContextProvider data={data}>
+      <Switch>
+        <Route path={[ `${match.url}/admin`, '/admin' ]}>
+          <Admin raceId={thisRaceId} />
+        </Route>
+        <Route path={`${match.url}/`}>
+          <RaceView />
+          <Link to={`${thisRaceId}/admin`}>Admin</Link>
+        </Route>
+      </Switch>
+    </RaceContextProvider>
   );
 }
 

@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import classNames from 'classnames'
 import ElapsedTime from '../DataFields/ElapsedTime'
 import PaceChart from '../PaceChart/PaceChart'
+import { useRaceContext } from '../../useRaceData'
 import { LapsTable, MilesTable } from './Tables'
 import { metersToMiles, duration, pace, laneToDistance } from '../../utils'
 import './RaceView.scss'
 
 
-const RaceView = ({ data }) => {
+const RaceView = () => {
+  const { data, elapsedDistance } = useRaceContext()
   const [reverse, setReverse] = useState(false)
 
-  const elapsedDistance = data.laps.reduce((meters, { distance }) => meters + distance, 0)
   const elapsedDuration = data.laps[0] ? duration({ start: data.laps[0].start, end: data.laps[data.laps.length - 1].end }) : '-'
   const estimatedFinishTime = elapsedDuration / elapsedDistance * data.goal
 
@@ -28,15 +29,7 @@ const RaceView = ({ data }) => {
         <ElapsedTime time={data.start} decimals={0} />
       </p>
       <div className='race-view__top'>
-        <div className='race-view__top-data'>
-          <div className='race-view__key'>Remaining distance</div>
-          <div className='race-view__value'>
-            {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
-            <div className='race-view__sub-data'>
-              {((data.goal - elapsedDistance) / laneToDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
-            </div>
-          </div>
-        </div>
+        <RemainingDistance />
         <div className='race-view__top-data'>
           <div className='race-view__key'>Estimated finish time</div>
           <div className='race-view__value'>
@@ -93,7 +86,7 @@ export default ({ data }) => {
         </p>
       </div>
       <div className='race-view'>
-        {data && data.start ? <RaceView data={data} /> : (
+        {data && data.start ? <RaceView /> : (
           <div className='race-view__top'>
             <div className='race-view__top-data'>
               <div className='race-view__key'>Estimated time until start</div>
@@ -126,6 +119,22 @@ const Tabs = ({ tabs, postTabs, children }) => {
       </div>
       {children}
       <div className='tabs__panel'>{tabs[tabIndex].element}</div>
+    </div>
+  )
+}
+
+const RemainingDistance = () => {
+  const { data, elapsedDistance } = useRaceContext()
+
+  return (
+    <div className='race-view__top-data'>
+      <div className='race-view__key'>Remaining distance</div>
+      <div className='race-view__value'>
+        {metersToMiles(data.goal - elapsedDistance).toFixed(2)} miles
+        <div className='race-view__sub-data'>
+          {((data.goal - elapsedDistance) / laneToDistance(data.currentLane)).toFixed(2)} laps in lane {data.currentLane}
+        </div>
+      </div>
     </div>
   )
 }
