@@ -110,9 +110,11 @@ const TempDisable = ({ onClick, ...props }) => {
 
   useEffect(() => {
     if (disabled) {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setDisabled(false)
       }, 5000)
+
+      return () => clearTimeout(timeout)
     }
   }, [disabled])
 
