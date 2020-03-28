@@ -1,17 +1,20 @@
-.admin__placeholder {
-  height: 25vh;
-}
-.admin__wrapper {
-  width: 100vw;
-  height: 25vh;
-  display: flex;
+.admin{
 
-}
-.admin__wrapper button {
-  flex: 1;
-  background: lavender;
-  font-size: 20px;
-  border: 3px solid lightblue;
+  &__placeholder {
+    height: 25vh;
+  }
+  &__wrapper {
+    width: 100vw;
+    height: 25vh;
+    display: flex;
+
+  }
+  &__wrapper button {
+    flex: 1;
+    background: lavender;
+    font-size: 20px;
+    border: 3px solid lightblue;
+  }
 }
 
 .login {
@@ -26,5 +29,21 @@
 
   button {
     font-size: 2em;
+  }
+}
+
+.popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 0, 0, 0.5);
+
+  button {
+    display: block;
+    width: calc(100% - 20px);
+    height: 100px;
+    margin: 10px;
   }
 }
