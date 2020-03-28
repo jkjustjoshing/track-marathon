@@ -19,7 +19,7 @@ export const RemainingDistance = () => {
 }
 
 export const EstimatedFinishTime = () => {
-  const { data, estimatedFinishTime, estimatedFinishClock } = useRaceContext()
+  const { estimatedFinishTime, estimatedFinishClock } = useRaceContext()
 
   return (
     <div className='race-view__top-data'>

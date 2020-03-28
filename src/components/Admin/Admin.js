@@ -1,11 +1,14 @@
 import React, { useState, useReducer } from 'react'
 import ReactDOM from 'react-dom'
-import { usePushData } from '../../useRaceData'
+import { LapsTable } from '../RaceView/Tables'
+import { RemainingDistance } from '../DataFields'
+import { usePushData, useRaceContext } from '../../useRaceData'
 import useAuth from '../../useAuth'
 import './Admin.scss'
 
-const Admin = ({ raceId, data, children }) => {
-  const { start, addLap, setLane } = usePushData(raceId)
+const Admin = ({ raceId }) => {
+  const { data } = useRaceContext()
+  const { start, addLap, setLane, removeLap } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
@@ -15,13 +18,16 @@ const Admin = ({ raceId, data, children }) => {
   return (
     <div className='admin'>
       <ConfirmButton onClick={logout}>logout</ConfirmButton>
+      <RemainingDistance />
       <div className='admin__wrapper'>
         <select value={data.currentLane} onChange={e => setLane(e.target.value)}>
           {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
         </select>
         <button onClick={start}>Start</button>
         <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>
+        <button onClick={() => { removeLap() }}>Undo last lap</button>
       </div>
+      <LapsTable data={data} limit={5} hideLane />
     </div>
   )
 }
