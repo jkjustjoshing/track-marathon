@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
 import { useTimeSync } from './timeSync'
-import { laneToDistance, firebaseDate } from './utils'
+import { laneToDistance, firebaseDate, duration } from './utils'
 
 const db = window.firebase.firestore()
 
@@ -81,10 +81,22 @@ const raceContext = createContext(null)
 export const useRaceContext = () => useContext(raceContext)
 export const RaceContextProvider = ({ data, children }) => {
   const elapsedDistance = data.laps.reduce((meters, { distance }) => meters + distance, 0)
+  const elapsedDuration = data.laps[0] ? duration({ start: data.laps[0].start, end: data.laps[data.laps.length - 1].end }) : '-'
+  const estimatedFinishTime = elapsedDuration / elapsedDistance * data.goal
+
+  const time = data.laps[0] ? new Date((data.laps[0].start.seconds + estimatedFinishTime) * 1000) : null
+  const estimatedFinishClock = time ? time.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  }) : '-'
 
   const value = useMemo(() => ({
     data,
-    elapsedDistance
-  }), [data, elapsedDistance])
+    elapsedDistance,
+    elapsedDuration,
+    estimatedFinishTime,
+    estimatedFinishClock
+  }), [data, elapsedDistance, elapsedDuration, estimatedFinishTime, estimatedFinishClock])
   return <raceContext.Provider value={value} children={children} />
 }
