@@ -63,6 +63,7 @@ export const usePushData = (id) => {
     race.set({
       ...data,
       start: firebaseDate(offset),
+      end: null,
       laps: []
     })
   }, [race, data, offset])
@@ -83,7 +84,25 @@ export const usePushData = (id) => {
     })
   }, [race, data])
 
-  return { start, addLap, setLane, removeLap }
+  const end = useCallback((remainingDistance) => {
+    const lapStart = data.laps[data.laps.length - 1]?.end || data.start
+    const end = firebaseDate(offset)
+    race.set({
+      ...data,
+      end,
+      laps: [
+        ...data.laps,
+        {
+          start: lapStart,
+          end,
+          distance: remainingDistance,
+          laneNumber: 1
+        }
+      ]
+    })
+  }, [race, data, offset])
+
+  return { start, addLap, setLane, removeLap, end }
 }
 
 const raceContext = createContext(null)

@@ -15,6 +15,12 @@
     font-size: 20px;
     border: 3px solid lightblue;
   }
+
+  &__select {
+    display: block;
+    width: 100%;
+    font-size: 2em;
+  }
 }
 
 .login {

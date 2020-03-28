@@ -5,7 +5,7 @@ import PaceChart from '../PaceChart/PaceChart'
 import { useRaceContext } from '../../useRaceData'
 import { LapsTable, MilesTable } from './Tables'
 import { RemainingDistance, EstimatedFinishTime } from '../DataFields'
-import { pace } from '../../utils'
+import { pace, duration } from '../../utils'
 import './RaceView.scss'
 
 
@@ -16,8 +16,10 @@ const RaceView = () => {
   return (
     <>
       <p className='race-view__elapsed'>
-        <span className='race-view__elapsed__key'>Race clock</span>
-        <ElapsedTime time={data.start} decimals={0} />
+        <span className='race-view__elapsed__key'>{data.end ? 'Final time' : 'Race clock'}</span>
+        {data.end ? <ElapsedTime duration={duration({
+          start: data.start, end: data.end
+        })} decimals={0} /> : <ElapsedTime time={data.start} decimals={0} />}
       </p>
       <div className='race-view__top'>
         <RemainingDistance />

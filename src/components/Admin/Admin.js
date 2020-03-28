@@ -3,28 +3,33 @@ import ReactDOM from 'react-dom'
 import { LapsTable } from '../RaceView/Tables'
 import { RemainingDistance } from '../DataFields'
 import { usePushData, useRaceContext } from '../../useRaceData'
+import { laneToDistance } from '../../utils'
 import useAuth from '../../useAuth'
 import './Admin.scss'
 
 const Admin = ({ raceId }) => {
-  const { data } = useRaceContext()
-  const { start, addLap, setLane, removeLap } = usePushData(raceId)
+  const { data, elapsedDistance } = useRaceContext()
+  const { start, addLap, setLane, removeLap, end } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
     return <Login />
   }
 
+  const remainingDistance = data.goal - elapsedDistance
+  const showEnd = remainingDistance < laneToDistance(data.currentLane)
+
   return (
     <div className='admin'>
       <ConfirmButton onClick={logout}>logout</ConfirmButton>
       <RemainingDistance />
+      <select className='admin__select' value={data.currentLane} onChange={e => setLane(e.target.value)}>
+        {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
+      </select>
       <div className='admin__wrapper'>
-        <select value={data.currentLane} onChange={e => setLane(e.target.value)}>
-          {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
-        </select>
         <button onClick={start}>Start</button>
-        <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>
+        {!showEnd && <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>}
+        {showEnd && <button onClick={() => end(remainingDistance)}>Finish</button>}
         <button onClick={() => { removeLap() }}>Undo last lap</button>
       </div>
       <LapsTable data={data} limit={5} hideLane />

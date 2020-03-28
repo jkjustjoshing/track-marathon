@@ -5,7 +5,7 @@ import './Table.scss'
 
 export const LapsTable = ({ data, reverse = false, limit, hideLane = false }) => {
 
-  const currentRow = (
+  const currentRow = data.end ? null : (
     <tr className='table__current-row'>
       <td>{data.laps.length + 1}</td>
       <td><ElapsedTime time={data.laps[data.laps.length - 1]?.end || data.start} decimals={1} /></td>
