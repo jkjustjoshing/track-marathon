@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react'
 
-// const URL = 'http://localhost:4444/track-marathon/us-central1/getServerTime'
+// const URL = 'http://localhost:5001/track-marathon/us-central1/getServerTime'
 const URL = 'https://us-central1-track-marathon.cloudfunctions.net/getServerTime'
 
 const context = createContext(null)
