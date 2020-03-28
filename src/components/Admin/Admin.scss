@@ -1,4 +1,12 @@
-.admin{
+.admin {
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    & .race-view__sub-data {
+      font-size: .6em;
+    }
+  }
 
   &__placeholder {
     height: 25vh;
@@ -51,5 +59,11 @@
     width: calc(100% - 20px);
     height: 100px;
     margin: 10px;
+  }
+}
+
+.temp-disable {
+  &:disabled {
+    opacity: 0.3;
   }
 }

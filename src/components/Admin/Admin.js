@@ -23,8 +23,11 @@ const Admin = ({ raceId }) => {
 
   return (
     <div className='admin'>
-      <ConfirmButton onClick={logout}>logout</ConfirmButton>
-      <RemainingDistance />
+      <div className='admin__top'>
+        <RemainingDistance />
+        <ConfirmButton onClick={logout}>logout</ConfirmButton>
+      </div>
+
       <select className='admin__select' value={data.currentLane} onChange={e => setLane(e.target.value)}>
         {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
       </select>
@@ -124,6 +127,6 @@ const TempDisable = ({ onClick, ...props }) => {
   }
 
   return (
-    <button {...props} onClick={click} disabled={disabled} />
+    <button className='temp-disable' {...props} onClick={click} disabled={disabled} />
   )
 }
