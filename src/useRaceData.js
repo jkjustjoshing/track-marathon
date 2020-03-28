@@ -102,7 +102,17 @@ export const usePushData = (id) => {
     })
   }, [race, data, offset])
 
-  return { start, addLap, setLane, removeLap, end }
+  const unEnd = useCallback(() => {
+    const laps = [...data.laps]
+    laps.pop()
+    race.set({
+      ...data,
+      end: null,
+      laps
+    })
+  }, [race, data])
+
+  return { start, addLap, setLane, removeLap, end, unEnd }
 }
 
 const raceContext = createContext(null)

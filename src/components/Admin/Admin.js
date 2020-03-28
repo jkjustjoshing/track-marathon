@@ -9,7 +9,7 @@ import './Admin.scss'
 
 const Admin = ({ raceId }) => {
   const { data, elapsedDistance } = useRaceContext()
-  const { start, addLap, setLane, removeLap, end } = usePushData(raceId)
+  const { start, addLap, setLane, removeLap, end, unEnd } = usePushData(raceId)
   const { userId, logout } = useAuth()
 
   if (!userId) {
@@ -19,6 +19,8 @@ const Admin = ({ raceId }) => {
   const remainingDistance = data.goal - elapsedDistance
   const showEnd = remainingDistance < laneToDistance(data.currentLane)
 
+  const started = Boolean(data.start)
+
   return (
     <div className='admin'>
       <ConfirmButton onClick={logout}>logout</ConfirmButton>
@@ -27,10 +29,20 @@ const Admin = ({ raceId }) => {
         {Array(6).fill(null).map((_, i) => <option key={i} value={i+1}>Lane {i+1}</option>)}
       </select>
       <div className='admin__wrapper'>
-        <button onClick={start}>Start</button>
-        {!showEnd && <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>}
-        {showEnd && <button onClick={() => end(remainingDistance)}>Finish</button>}
-        <button onClick={() => { removeLap() }}>Undo last lap</button>
+        {!data.end && (
+          <>
+            {!started && <button onClick={start}>Start</button>}
+
+            {started && !showEnd && <button onClick={() => { addLap(data.currentLane) }}>Trigger lap</button>}
+            {showEnd && <button onClick={() => end(remainingDistance)}>Finish</button>}
+            {Boolean(data.laps.length) && <button onClick={() => { removeLap() }}>Undo last lap</button>}
+          </>
+        )}
+        {
+          data.end && (
+            <ConfirmButton onClick={unEnd}>Reverse end</ConfirmButton>
+          )
+        }
       </div>
       <LapsTable data={data} limit={5} hideLane />
     </div>
