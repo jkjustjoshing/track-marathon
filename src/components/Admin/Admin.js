@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { usePushData } from '../../useRaceData'
 import useAuth from '../../useAuth'
-import './Admin.css'
+import './Admin.scss'
 
 const Admin = ({ raceId, data, children }) => {
   const { start, addLap, setLane } = usePushData(raceId)
@@ -34,7 +34,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   return (
-    <form onSubmit={e => {
+    <form className='login' onSubmit={e => {
       e.preventDefault()
       login(email, password)
     }}>
